@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "746918258342",
+    "project_id": "room-finder-47e78",
+    "storage_bucket": "room-finder-47e78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746918258342:android:6f1ca2ec52dec3af89b667",
+        "android_client_info": {
+          "package_name": "com.example.myroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746918258342-1b6j7g1ukuhtdr4f86lht9bl2ltceple.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myroom",
+            "certificate_hash": "e7b350e6eed12a534b23cfb7b62b2da9f4032966"
+          }
+        },
+        {
+          "client_id": "746918258342-9bbf3ek7bf6col90qr13cntvlc15hiop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqSWvTsMMHQ8Ztbbo34wsqF9rJeMV8-gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746918258342-9bbf3ek7bf6col90qr13cntvlc15hiop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
