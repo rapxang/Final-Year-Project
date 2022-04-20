@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Screens/Drawer/appDrawer.dart';
+import 'package:myapp/Screens/Home%20Screen/Post.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,6 +24,11 @@ class _HomeState extends State<Home> {
     "Kirtipur",
     "Nepalgunj",
   ];
+  List<String> residence = [
+    "Room",
+    "Flat",
+    "House",
+  ];
   bool isSearching = false;
 
   @override
@@ -38,9 +45,7 @@ class _HomeState extends State<Home> {
                 },
                 controller: controller,
                 children: [
-                  Container(
-                    color: Colors.red,
-                  ),
+                  Post(),
                   isSearching
                       ? Column(
                           children: [
@@ -187,6 +192,52 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
+                            ),
+                            Wrap(
+                              children: residence
+                                  .asMap()
+                                  .entries
+                                  .map((e) => GestureDetector(
+                                        onTap: () {
+                                          if (selected.contains(e.key)) {
+                                            selected.remove(e.key);
+                                            setState(() {});
+                                          } else {
+                                            selected.add(e.key);
+                                            setState(() {});
+                                          }
+                                        },
+                                        child: AnimatedContainer(
+                                          duration: Duration(milliseconds: 200),
+                                          curve: Curves.easeIn,
+                                          margin: EdgeInsets.all(6),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 6),
+                                          decoration: BoxDecoration(
+                                            color: selected.contains(e.key)
+                                                ? Colors.green
+                                                : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: Offset(0, 2),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 4,
+                                                  color: Colors.black
+                                                      .withOpacity(0.1))
+                                            ],
+                                          ),
+                                          child: Text(
+                                            e.value,
+                                            style: TextStyle(
+                                                color: selected.contains(e.key)
+                                                    ? Colors.white
+                                                    : Colors.black),
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
                             ),
                             SizedBox(
                               width: 12,

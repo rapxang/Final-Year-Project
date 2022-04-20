@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Screens/Search/search.dart';
 import 'package:myapp/Screens/SignIn%20Screen/login_screen.dart';
 import 'package:myapp/Screens/SignUp%20Screen/registration_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:myapp/Screens/Home Screen/home.dart';
+import 'package:myapp/Screens/Drawer/appDrawer.dart';
+import 'package:myapp/Screens/Advertisement/add_product.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +19,11 @@ class _HomePageState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
+      appBar: AppBar(
+      title: Text('Welcome to Room Finder'),
+      centerTitle: true,
+    ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -51,7 +59,7 @@ class _HomePageState extends State<HomeScreen> {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => Home()));
+                          MaterialPageRoute(builder: (_) => Advertise()));
                     },
                   ),
                   decoration: BoxDecoration(

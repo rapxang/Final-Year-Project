@@ -5,9 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import '../Home Screen/home.dart';
+import 'package:myapp/Screens/Controller/controller.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({key}) : super(key: key);
@@ -19,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   // form key
   final _formKey = GlobalKey<FormState>();
+  final controller = Get.put(LoginController());
 
   // editing controller
   final TextEditingController emailController = new TextEditingController();
@@ -29,6 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // string for displaying the error Message
   String? errorMessage;
+
+  var icon;
+  var _passwordVisible= false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-        )
-    );
+        ));
 
     //password field
     final passwordField = TextFormField(
@@ -84,11 +89,27 @@ class _LoginScreenState extends State<LoginScreen> {
           prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
+          //suffixIcon: IconButton(onPressed: (){},icon: icon.visibility),
+          // suffixIcon: IconButton(
+          //   icon: Icon(
+          //     // Based on passwordVisible state choose the icon
+          //     _passwordVisible
+          //         ? Icons.visibility
+          //         : Icons.visibility_off,
+          //     color: Theme.of(context).primaryColorDark,
+          //   ),
+          //   onPressed: () {
+          //     // Update the state i.e. toogle the state of passwordVisible variable
+          //     setState(() {
+          //       _passwordVisible = !_passwordVisible;
+          //     });
+          //   },
+          // ),
+
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-        )
-    );
+        ));
 
 
     final loginButton = Material(
@@ -106,9 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          )
-      ),
+          )),
     );
+
+
 
     final googleButton = Material(
       elevation: 5,
@@ -116,28 +138,17 @@ class _LoginScreenState extends State<LoginScreen> {
       color: Colors.blueAccent,
       //margin: const EdgeInsets.only(top: 10.0),
       child: FloatingActionButton.extended(
-        onPressed: () => signInWithGoogle(),
+        onPressed: () => signInWithGoogle(context),
         icon: Image.asset(
           "assets/images/googlelogo.jpg",
-          height: 50.0,
-          width: 32.0,
+          height: 35.0,
+          width: 125.0,
         ),
         label: Text('Sign in with Google'),
+
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
-      // child: MaterialButton(
-      //     padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-      //     minWidth: MediaQuery.of(context).size.width,
-      //     onPressed: () {
-      //       signIn(emailController.text, passwordController.text);
-      //     },
-      //     child: Text(
-      //       "Login",
-      //       textAlign: TextAlign.center,
-      //       style: TextStyle(
-      //           fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-      //     )),
     );
 
     return Scaffold(
@@ -167,6 +178,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 35),
                     loginButton,
                     SizedBox(height: 15),
+                    googleButton,
+                    SizedBox(height: 15),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -186,10 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
                             ),
-                          )
+                          ),
                         ]),
-                    googleButton,
-                    SizedBox(height: 5),
                   ],
                 ),
               ),
@@ -208,8 +219,8 @@ class _LoginScreenState extends State<LoginScreen> {
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen(title: ""))),
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => HomeScreen(title: ""))),
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
@@ -242,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Future<UserCredential> signInWithGoogle() async {
+Future<void> signInWithGoogle(BuildContext context) async {
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
   final GoogleSignInAuthentication googleAuth =
@@ -252,5 +263,11 @@ Future<UserCredential> signInWithGoogle() async {
     idToken: googleAuth.idToken,
     accessToken: googleAuth.accessToken,
   );
-  return await FirebaseAuth.instance.signInWithCredential(credential);
+   FirebaseAuth.instance.signInWithCredential(credential).then((uid) => {
+    Fluttertoast.showToast(msg: "Login Successful"),
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => HomeScreen(title: ""))),
+  });
 }
+
+
