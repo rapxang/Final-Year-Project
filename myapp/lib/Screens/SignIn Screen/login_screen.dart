@@ -1,5 +1,4 @@
-import 'package:myapp/Screens/Home Screen/home_screen.dart';
-import 'package:myapp/Screens/Home Screen/home.dart';
+
 import 'package:myapp/screens/Signup Screen/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +6,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-import '../Home Screen/home.dart';
 import 'package:myapp/Screens/Controller/controller.dart';
 import 'package:get/get.dart';
+
+import '../../Activities/Home Screen/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({key}) : super(key: key);
@@ -59,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.mail),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          prefixIcon: const Icon(Icons.mail),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Email",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
@@ -86,8 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.vpn_key),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          prefixIcon: const Icon(Icons.vpn_key),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
           //suffixIcon: IconButton(onPressed: (){},icon: icon.visibility),
           // suffixIcon: IconButton(
@@ -117,15 +117,15 @@ class _LoginScreenState extends State<LoginScreen> {
       borderRadius: BorderRadius.circular(30),
       color: Colors.blueAccent,
       child: MaterialButton(
-          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
             signIn(emailController.text, passwordController.text);
           },
-          child: Text(
+          child: const Text(
             "Login",
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           )),
     );
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 35.0,
           width: 125.0,
         ),
-        label: Text('Sign in with Google'),
+        label: const Text('Sign in with Google'),
 
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -171,28 +171,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           "assets/images/logo.png",
                           fit: BoxFit.contain,
                         )),
-                    SizedBox(height: 45),
+                    const SizedBox(height: 45),
                     emailField,
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
                     passwordField,
-                    SizedBox(height: 35),
+                    const SizedBox(height: 35),
                     loginButton,
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     googleButton,
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Don't have an account? "),
+                          const Text("Don't have an account? "),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          RegistrationScreen()));
+                                          const RegistrationScreen()));
                             },
-                            child: Text(
+                            child: const Text(
                               "SignUp",
                               style: TextStyle(
                                   color: Colors.blue,
@@ -220,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((uid) => {
                   Fluttertoast.showToast(msg: "Login Successful"),
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => HomeScreen(title: ""))),
+                      builder: (context) => const HomeScreen(title: ""))),
                 });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
@@ -266,7 +266,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
    FirebaseAuth.instance.signInWithCredential(credential).then((uid) => {
     Fluttertoast.showToast(msg: "Login Successful"),
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => HomeScreen(title: ""))),
+        builder: (context) => const HomeScreen(title: ""))),
   });
 }
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Screens/SignIn%20Screen/login_screen.dart';
 import 'package:myapp/Screens/SignUp%20Screen/registration_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:myapp/Screens/Drawer/appDrawer.dart';
 
 
 class WelcomePage extends StatefulWidget {

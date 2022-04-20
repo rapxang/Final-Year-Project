@@ -12,22 +12,29 @@ class AdvertisementService {
             .get();
     List<Advertisement> advertisements = advertisementsParsable.docs.map((e) {
       Map<String, dynamic> parsable = e.data();
-      print(parsable["user"]);
-      return Advertisement(
-          id: e.id,
-          parking: parsable["parking"],
-          price: parsable["price"],
-          roomCount: parsable["room_count"],
-          status: parsable["status"],
-          waterSupply: parsable["water_supply"],
-          contact: parsable["contact"],
-          description: parsable["description"],
-          location: parsable["location"],
-          latlng: parsable["geopoint"],
-          img: parsable["img"],
-          internet: parsable["internet"],
-          residence: parsable["residence"],
-          kitchen: parsable["kitchen"]);
+      Timestamp a = parsable["created"];
+      DateTime created =
+          DateTime.fromMicrosecondsSinceEpoch(a.microsecondsSinceEpoch);
+      Advertisement ad = Advertisement(
+        id: e.id,
+        parking: parsable["parking"],
+        price: parsable["price"],
+        roomCount: parsable["room_count"],
+        status: parsable["status"],
+        waterSupply: parsable["water_supply"],
+        contact: parsable["contact"],
+        description: parsable["description"],
+        location: parsable["location"],
+        latlng: parsable["geopoint"],
+        img: parsable["img"],
+        internet: parsable["internet"],
+        residence: parsable["residence"],
+        kitchen: parsable["kitchen"],
+        created: created,
+        // created: DateTime.now()
+      );
+      print("Created");
+      return ad;
     }).toList();
     return advertisements;
   }
@@ -46,6 +53,8 @@ class AdvertisementService {
       required bool internet,
       required String residence,
       required bool kitchen}) async {
+    Timestamp a = Timestamp.fromMicrosecondsSinceEpoch(
+        DateTime.now().microsecondsSinceEpoch);
     Map<String, dynamic> data = {
       "parking": parking,
       "price": price,
@@ -61,6 +70,7 @@ class AdvertisementService {
       "residence": residence,
       "kitchen": kitchen,
       "user": FirebaseAuth.instance.currentUser?.uid,
+      "created": a,
     };
     bool success = true;
     DocumentReference<Map<String, dynamic>>? advertisementsParsable;

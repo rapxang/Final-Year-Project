@@ -19,29 +19,29 @@ class AppDrawer extends StatelessWidget {
             children: [
 
               ListTile(
-                leading: Icon(Icons.person),
+                leading: const Icon(Icons.person),
                 title: const Text('My Post'),
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              Post()));
+                              const Post()));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.settings),
+                leading: const Icon(Icons.settings),
                 title: const Text('Settings'),
                 onTap: () {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.logout),
+                leading: const Icon(Icons.logout),
                 title: const Text('LogOut'),
                 onTap: () {
                   Navigator.pushAndRemoveUntil(
                       (context),
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
                           (route) => true);
 
                 },

@@ -1,15 +1,14 @@
-import 'package:myapp/Screens/Services/AdvertisementService.dart';
 import 'package:myapp/Screens/Welcome Screen/welcomescreen.dart';
+
 //import 'package:myroom/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'Screens/Home Screen/home_screen.dart';
+import 'Services/AdvertisementService.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  AdvertisementService().getAdvertisements();
   runApp(MyApp());
 }
 
