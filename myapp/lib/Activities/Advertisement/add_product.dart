@@ -125,7 +125,7 @@ class _AdvertiseState extends State<Advertise> {
                 ),
               ),
               const SizedBox(
-                width: 12,
+                height: 12,
               ),
               Container(
                 color: Colors.black.withOpacity(0.5),
@@ -196,7 +196,7 @@ class _AdvertiseState extends State<Advertise> {
                 ),
               ),
               const SizedBox(
-                width: 12,
+                height: 12,
               ),
               Container(
                 color: Colors.black.withOpacity(0.5),
@@ -284,7 +284,7 @@ class _AdvertiseState extends State<Advertise> {
                 ),
               ),
               const SizedBox(
-                width: 12,
+                height: 12,
               ),
               Container(
                 color: Colors.black.withOpacity(0.5),
@@ -440,7 +440,7 @@ class _AdvertiseState extends State<Advertise> {
                     setState(() {});
                   }),
               const SizedBox(
-                width: 12,
+                height: 12,
               ),
               Container(
                 color: Colors.black.withOpacity(0.5),
@@ -481,11 +481,16 @@ class _AdvertiseState extends State<Advertise> {
               ),
               GestureDetector(
                 onTap: () async {
-                  latlng = await Navigator.push(context,
-                      MaterialPageRoute(builder: (_) {
-                    return MapScreen();
-                  }));
-                  setState(() {});
+                  FilePickerResult? result =
+                  await FilePicker.platform.pickFiles(
+                    allowMultiple: false,
+                    dialogTitle: "Select image for advertisement",
+                    allowCompression: false,
+                  );
+                  if (result != null) {
+                    img = result.files[0].path;
+                    setState(() {});
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.all(12),
@@ -549,7 +554,7 @@ class _AdvertiseState extends State<Advertise> {
                     ],
                   ),
                   child: const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: Colors.white,),
                   ),
                 ),
               )
@@ -591,6 +596,8 @@ class _AdvertiseState extends State<Advertise> {
                       location = null;
                       residenceSelected = null;
                       parkingSelected = null;
+                      img = null;
+                      latlng = null;
                       isInternet = false;
                       isKitchen = false;
                       isWater = false;
@@ -612,7 +619,7 @@ class _AdvertiseState extends State<Advertise> {
                         content: Text("Please fill in the details")));
                   }
 
-                  confirmDisabled = true;
+                  confirmDisabled = false;
                   setState(() {});
                 },
                 child: Container(
@@ -632,7 +639,7 @@ class _AdvertiseState extends State<Advertise> {
                   ),
                   child: const Center(
                     child: Text(
-                      "GO",
+                      "Create",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),

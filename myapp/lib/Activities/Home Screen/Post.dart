@@ -5,8 +5,20 @@ import '../../Services/AdvertisementService.dart';
 import '../../model/advertisement_model.dart';
 import 'IndividualPost.dart';
 
-class Post extends StatelessWidget {
-  const Post({Key? key}) : super(key: key);
+class Post extends StatefulWidget {
+  final Function changeScreen;
+  final bool isEditable;
+
+  Post(this.changeScreen, {this.isEditable = true});
+
+  @override
+  State<Post> createState() => _PostState();
+}
+
+class _PostState extends State<Post> {
+  refresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +33,7 @@ class Post extends StatelessWidget {
               return ListView(
                 children: advertisements
                     .map(
-                      (e) => IndividualPost(e),
+                      (e) => IndividualPost(e, refresh, widget.changeScreen, isEditable: widget.isEditable),
                     )
                     .toList(),
               );

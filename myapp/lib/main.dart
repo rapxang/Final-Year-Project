@@ -1,3 +1,4 @@
+import 'package:myapp/CheckSession.dart';
 import 'package:myapp/Screens/Welcome Screen/welcomescreen.dart';
 
 //import 'package:myroom/screens/login_screen.dart';
@@ -22,8 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(title: ''),
-      // home: HomeScreen(title: '',),
+      home: CheckSessionScreen(),
     );
   }
 }

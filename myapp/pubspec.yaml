@@ -45,6 +45,9 @@ dependencies:
   geolocator:
   file_picker:
   firebase_storage:
+  shared_preferences:
+  maps_launcher: ^2.0.1
+  url_launcher:
 
 dev_dependencies:
   flutter_test:

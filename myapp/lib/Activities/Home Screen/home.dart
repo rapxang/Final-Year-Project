@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
           },
           controller: controller,
           children: [
-            const Post(),
+            Post(changeScreen),
             Advertise(changeScreen),
             SearchScreen(),
           ],

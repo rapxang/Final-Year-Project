@@ -1,14 +1,12 @@
-
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Screens/SignIn Screen/login_screen.dart';
 
 import '../Home Screen/Post.dart';
-
+import 'ChangePasswordDialog.dart';
+import 'DeleteForeverDialog.dart';
 
 class AppDrawer extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -17,22 +15,31 @@ class AppDrawer extends StatelessWidget {
         child: Drawer(
           child: ListView(
             children: [
-
               ListTile(
-                leading: const Icon(Icons.person),
-                title: const Text('My Post'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const Post()));
+                leading: const Icon(Icons.password),
+                title: const Text('Change Password'),
+                onTap: () async {
+                Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return ChangePasswordDialog();
+                    },
+                  );
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text('Settings'),
+                leading: const Icon(Icons.delete),
+                title: const Text('Delete Account'),
                 onTap: () {
+                  Navigator.pop(context);
+                  Future.delayed((Duration(milliseconds: 1))).then((value) {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return DeleteForeverDialog();
+                        });
+                  });
                 },
               ),
               ListTile(
@@ -41,9 +48,9 @@ class AppDrawer extends StatelessWidget {
                 onTap: () {
                   Navigator.pushAndRemoveUntil(
                       (context),
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                          (route) => true);
-
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                      (route) => true);
                 },
               ),
             ],

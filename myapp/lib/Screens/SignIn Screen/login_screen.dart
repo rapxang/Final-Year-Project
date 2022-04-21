@@ -1,4 +1,3 @@
-
 import 'package:myapp/screens/Signup Screen/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,10 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'package:myapp/Screens/Controller/controller.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Activities/Home Screen/home_screen.dart';
+import '../../Services/google_signin.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({key}) : super(key: key);
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? errorMessage;
 
   var icon;
-  var _passwordVisible= false;
+  var _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ));
 
-
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -130,8 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
           )),
     );
 
-
-
     final googleButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -145,7 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
           width: 125.0,
         ),
         label: const Text('Sign in with Google'),
-
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
@@ -211,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // login function
+// login function
   void signIn(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -222,6 +219,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const HomeScreen(title: ""))),
                 });
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setString("username", email);
+          prefs.setString("password", password);
+        });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
           case "invalid-email":
@@ -252,22 +253,3 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 }
-
-Future<void> signInWithGoogle(BuildContext context) async {
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  final GoogleSignInAuthentication googleAuth =
-      await googleUser!.authentication;
-
-  final OAuthCredential credential = GoogleAuthProvider.credential(
-    idToken: googleAuth.idToken,
-    accessToken: googleAuth.accessToken,
-  );
-   FirebaseAuth.instance.signInWithCredential(credential).then((uid) => {
-    Fluttertoast.showToast(msg: "Login Successful"),
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const HomeScreen(title: ""))),
-  });
-}
-
-

@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:myapp/Services/AdvertisementService.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/advertisement_model.dart';
+import '../Advertisement/EditProduct.dart';
+import 'ConfirmDialog.dart';
 
-class IndividualPost extends StatelessWidget {
-  Advertisement e;
+class IndividualPost extends StatefulWidget {
+  final Advertisement e;
+  final Function refresh;
 
-  IndividualPost(this.e);
+  final Function changeScreen;
+  final bool isEditable;
 
+  IndividualPost(this.e, this.refresh, this.changeScreen,
+      {this.isEditable = true});
+
+  @override
+  State<IndividualPost> createState() => _IndividualPostState();
+}
+
+class _IndividualPostState extends State<IndividualPost> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,16 +50,21 @@ class IndividualPost extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          e.contact,
+                          widget.e.contact,
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          e.created.difference(DateTime.now()).inDays == 0
+                          widget.e.created.difference(DateTime.now()).inDays ==
+                                  0
                               ? "Posted today"
-                              : e.created.difference(DateTime.now()).inDays.abs() == 1
+                              : widget.e.created
+                                          .difference(DateTime.now())
+                                          .inDays
+                                          .abs() ==
+                                      1
                                   ? "Posted 1 day ago"
-                                  : "Posted ${e.created.difference(DateTime.now()).inDays.abs()} days ago",
+                                  : "Posted ${widget.e.created.difference(DateTime.now()).inDays.abs()} days ago",
                           style:
                               TextStyle(color: Colors.black.withOpacity(0.5)),
                         ),
@@ -55,13 +75,13 @@ class IndividualPost extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.green,
+                          color: widget.e.status ? Colors.green : Colors.red,
                           borderRadius: BorderRadius.circular(12)),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 3.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 6, vertical: 3.0),
                         child: Text(
-                          "available",
+                          widget.e.status ? "available" : "unavailable",
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ),
@@ -69,16 +89,61 @@ class IndividualPost extends StatelessWidget {
                     Expanded(
                       child: Container(),
                     ),
-                    PopupMenuButton(
-                      itemBuilder: (context) => [
-                        const PopupMenuItem(
-                          child: Text("Edit"),
-                        ),
-                        const PopupMenuItem(
-                          child: Text("Delete"),
-                        ),
-                      ],
-                    ),
+                    widget.isEditable
+                        ? PopupMenuButton(
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                child: Text("Edit"),
+                                onTap: () {
+                                  Future.delayed(Duration(milliseconds: 1))
+                                      .then((value) => Navigator.push(context,
+                                              MaterialPageRoute(builder: (_) {
+                                            return EditProduct(
+                                                widget.e, widget.changeScreen);
+                                          })));
+                                },
+                              ),
+                              PopupMenuItem(
+                                child: Text("Delete"),
+                                onTap: () {
+                                  Future.delayed(Duration(milliseconds: 1))
+                                      .then((value) => showDialog(
+                                            context: context,
+                                            builder: (_) {
+                                              return ConfirmDialog(
+                                                  widget.e, widget.refresh);
+                                            },
+                                          ));
+                                },
+                              ),
+                              PopupMenuItem(
+                                child: Text(widget.e.status
+                                    ? "Unavailable"
+                                    : "available"),
+                                onTap: () async {
+                                  Future.delayed(Duration(milliseconds: 1))
+                                      .then((value) async {
+                                    await AdvertisementService()
+                                        .updateAvailableAdvertisement(
+                                            widget.e, !widget.e.status);
+                                    widget.refresh();
+                                  });
+                                },
+                              ),
+                              PopupMenuItem(
+                                child: Text("View on map"),
+                                onTap: () {
+                                  Future.delayed(Duration(milliseconds: 1))
+                                      .then((value) async {
+                                    launch(Uri.encodeFull(
+                                        "https://www.google.com/maps/search/?api=1&query=${widget.e.latlng.latitude},${widget.e.latlng.longitude}"));
+                                    // MapsLauncher.launchCoordinates(widget.e.latlng.latitude, widget.e.latlng.longitude);
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                        : Container(),
                   ],
                 ),
                 Row(
@@ -91,7 +156,8 @@ class IndividualPost extends StatelessWidget {
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(12),
                           image: DecorationImage(
-                              image: NetworkImage(e.img), fit: BoxFit.cover),
+                              image: NetworkImage(widget.e.img),
+                              fit: BoxFit.cover),
                         ),
                       ),
                     ),
@@ -114,7 +180,7 @@ class IndividualPost extends StatelessWidget {
                                 width: 6,
                               ),
                               Text(
-                                e.residence,
+                                widget.e.residence,
                               ),
                             ],
                           ),
@@ -131,7 +197,7 @@ class IndividualPost extends StatelessWidget {
                                 width: 6,
                               ),
                               Text(
-                                e.location,
+                                widget.e.location,
                               ),
                             ],
                           ),
@@ -140,7 +206,7 @@ class IndividualPost extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              e.kitchen
+                              widget.e.kitchen
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 6.0),
@@ -159,7 +225,7 @@ class IndividualPost extends StatelessWidget {
                                       ),
                                     )
                                   : Container(),
-                              e.internet
+                              widget.e.internet
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 6.0),
@@ -177,7 +243,7 @@ class IndividualPost extends StatelessWidget {
                                       ),
                                     )
                                   : Container(),
-                              e.waterSupply
+                              widget.e.waterSupply
                                   ? Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 6.0),
@@ -204,7 +270,7 @@ class IndividualPost extends StatelessWidget {
                             height: 6,
                           ),
                           Text(
-                            "${e.roomCount} rooms,\n${e.parking} parking",
+                            "${widget.e.roomCount} rooms,\n${widget.e.parking} parking",
                             style: const TextStyle(fontSize: 12),
                           ),
                         ],
@@ -222,7 +288,7 @@ class IndividualPost extends StatelessWidget {
                   height: 6,
                 ),
                 Text(
-                  "Rs. " + e.price.toString(),
+                  "Rs. " + widget.e.price.toString(),
                   textAlign: TextAlign.left,
                   style: const TextStyle(fontSize: 16),
                 ),
@@ -230,7 +296,7 @@ class IndividualPost extends StatelessWidget {
                   height: 6,
                 ),
                 Text(
-                  e.description,
+                  widget.e.description,
                   textAlign: TextAlign.left,
                 ),
               ],
