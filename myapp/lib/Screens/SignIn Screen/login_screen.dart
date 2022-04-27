@@ -1,3 +1,4 @@
+import 'package:myapp/Screens/Reset%20Password/reset_password.dart';
 import 'package:myapp/screens/Signup Screen/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +148,16 @@ class _LoginScreenState extends State<LoginScreen> {
         foregroundColor: Colors.black,
       ),
     );
+    Widget forgotPassword(BuildContext context){
+      return Container(width: MediaQuery.of(context).size.width,
+      height: 35,
+      alignment: Alignment.bottomRight,
+      child: TextButton(onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => ResetPassword()));
+      },
+      child: Text("Forgot Password?",style: TextStyle(color: Colors.blue),textAlign: TextAlign.right,)),);
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -172,9 +183,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     emailField,
                     const SizedBox(height: 25),
                     passwordField,
-                    const SizedBox(height: 35),
+                    const SizedBox(height: 5),
+                    forgotPassword(context),
+                    const SizedBox(height: 25),
                     loginButton,
                     const SizedBox(height: 15),
+
                     googleButton,
                     const SizedBox(height: 15),
                     Row(

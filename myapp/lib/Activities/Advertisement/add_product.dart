@@ -362,14 +362,14 @@ class _AdvertiseState extends State<Advertise> {
                     setState(() {});
                   },
                   decoration: InputDecoration(
-                    labelText: "contact",
+                    labelText: "Contact",
                     border: const OutlineInputBorder(),
                     errorText:
                         isvalidationDone && contactController.text.length != 10
-                            ? "contact must be 10 digits"
+                            ? "Contact must be 10 digits"
                             : isvalidationDone &&
                                     int.tryParse(contactController.text) == null
-                                ? "contact must be numbers"
+                                ? "Contact must be numbers"
                                 : null,
                   ),
                   keyboardType: TextInputType.number,
@@ -386,11 +386,11 @@ class _AdvertiseState extends State<Advertise> {
                     setState(() {});
                   },
                   decoration: InputDecoration(
-                    labelText: "description",
+                    labelText: "Description",
                     border: const OutlineInputBorder(),
                     errorText:
                         isvalidationDone && descriptionController.text == ""
-                            ? "description cannot be empty"
+                            ? "Description cannot be empty"
                             : null,
                   ),
                 ),
@@ -406,11 +406,11 @@ class _AdvertiseState extends State<Advertise> {
                     setState(() {});
                   },
                   decoration: InputDecoration(
-                    labelText: "room count",
+                    labelText: "Room Count",
                     border: const OutlineInputBorder(),
                     errorText: isvalidationDone &&
                             int.tryParse(roomCountController.text) == null
-                        ? "room count must be a number"
+                        ? "Room count must be a number"
                         : null,
                   ),
                   keyboardType: TextInputType.number,
@@ -423,7 +423,7 @@ class _AdvertiseState extends State<Advertise> {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Row(
                   children: [
-                    const Text("price"),
+                    const Text("Price"),
                     Expanded(child: Container()),
                     Text(price.toString()),
                   ],
@@ -473,8 +473,8 @@ class _AdvertiseState extends State<Advertise> {
                   child: Center(
                     child: Text(
                       latlng == null
-                          ? "No location chosen"
-                          : "chosen: (${latlng?.latitude.toStringAsFixed(2)}, ${latlng?.longitude.toStringAsFixed(2)})",
+                          ? "No Location Chosen"
+                          : "Chosen: (${latlng?.latitude.toStringAsFixed(2)}, ${latlng?.longitude.toStringAsFixed(2)})",
                     ),
                   ),
                 ),
@@ -523,7 +523,7 @@ class _AdvertiseState extends State<Advertise> {
                             child: Padding(
                               padding: EdgeInsets.all(12.0),
                               child: Text(
-                                "Select a Image",
+                                "Select an Image",
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
@@ -639,7 +639,7 @@ class _AdvertiseState extends State<Advertise> {
                   ),
                   child: const Center(
                     child: Text(
-                      "Create",
+                      "Advertise",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),

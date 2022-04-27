@@ -26,7 +26,7 @@ class _HomePageState extends State<WelcomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset('assets/json/lottie.json'),
+                Lottie.asset('assets/json/advertise.json'),
                 Container(
                   margin: EdgeInsets.all(10.0),
                   width: double.infinity,

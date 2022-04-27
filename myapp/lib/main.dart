@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: CheckSessionScreen(),
+      //home: WelcomePage(title: '',),
     );
   }
 }
